@@ -10,49 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Times+New+Roman&family=Cambria&family=Arial&family=Algerian&family=Oregano&family=Lucida+Calligraphy&family=Playball&family=Wished+Lovely&family=ALS+Script&display=Dancing+Script&family=swap" rel="stylesheet">
     
     <style>
-  /* GENEL AYARLAR */
+ <style>
+    /* GENEL AYARLAR (BİLGİSAYAR VE YAZICI İÇİN) */
     body { font-family: 'Times New Roman', serif; background: #e0e0e0; display: flex; flex-direction: column; align-items: center; padding: 0; margin: 0; }
-    
-    /* BUTON PANELİ - TELEFONDA EN ÜSTTE SABİT */
-    .no-print { 
-        width: 100%; 
-        background: #333; 
-        padding: 15px; 
-        box-sizing: border-box; 
-        display: flex; 
-        flex-direction: row; /* Yan yana dizilsinler yer kaplamasın */
-        justify-content: center; 
-        gap: 10px; 
-        z-index: 1000;
-    }
-
     .form-container { width: 790px; background: white; padding: 25px; border: 2px solid #000; box-sizing: border-box; margin-top: 20px; }
-
-    /* TELEFON UYUMLULUĞU */
-    @media screen and (max-width: 800px) {
-        .no-print { 
-            position: sticky; /* Sayfayı kaydırdıkça en üstte kalır */
-            top: 0; 
-            flex-wrap: wrap; /* Sığmazsa alt satıra geçer */
-        }
-        .form-container { 
-            width: 100% !important; 
-            margin-top: 0 !important;
-            padding: 10px !important; 
-            border: none !important; 
-        }
-        .main-layout { flex-direction: column; }
-        .row { flex-direction: column; gap: 5px; }
-        .canvas-wrap { height: 350px; }
-        .font-wrap { height: 200px; }
-    }
-
-    @media print { .no-print { display: none !important; } .form-container { margin-top: 0; border: 2px solid #000 !important; } }
-
-    /* DİĞER TASARIMLAR (AYNI) */
     .header { text-align: center; border-bottom: 3px solid #000; padding-bottom: 10px; margin-bottom: 15px; }
     .main-title { font-size: 50px; font-weight: 900; margin: 0; }
     .logo-img { width: 220px; }
+    .row { display: flex; gap: 15px; margin-top: 10px; }
     .field { flex: 1; display: flex; align-items: baseline; border-bottom: 1px solid #000; }
     .field label { font-weight: bold; margin-right: 10px; font-size: 14px; white-space: nowrap; }
     .field input { border: none; width: 100%; outline: none; font-size: 16px; background: transparent; }
@@ -67,8 +32,40 @@
     .notice { font-size: 10px; border-top: 2px solid #000; padding-top: 8px; margin-top: 15px; line-height: 1.3; }
     .sig-area { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 15px; }
     #sig-canvas { border-bottom: 1px solid #000; width: 180px; height: 60px; }
-    button { padding: 8px 12px; font-weight: bold; cursor: pointer; border-radius: 5px; border: none; font-size: 12px; }
+    .no-print { width: 100%; background: #333; padding: 10px; display: flex; justify-content: center; gap: 10px; position: sticky; top: 0; z-index: 1000; }
+    button { padding: 10px 15px; font-weight: bold; cursor: pointer; border-radius: 5px; border: none; }
     .btn-save { background: #d32f2f; color: white; }
+
+    /* TELEFON EKRANI AYARI (SADECE EKRANDA GÖRÜNÜR) */
+    @media screen and (max-width: 800px) {
+        body { background: #fff; }
+        .form-container { width: 100% !important; border: none !important; padding: 10px !important; margin-top: 0; }
+        .row { flex-direction: column; gap: 10px; } /* Kutuları alt alta diz */
+        .main-layout { flex-direction: column; } /* Çizim alanı ve fontları alt alta diz */
+        .left-panel { border-right: none; border-bottom: 2px solid #000; }
+        .main-title { font-size: 30px; }
+        .logo-img { width: 150px; }
+        .canvas-wrap { height: 300px; }
+        .font-wrap { height: 200px; }
+        .sig-area { flex-direction: column; align-items: center; gap: 20px; }
+    }
+
+    /* YAZDIRMA AYARI (MAİL VE ÇIKTI ALIRKEN BURASI ÇALIŞIR) */
+    @media print {
+        .no-print { display: none !important; }
+        body { background: white !important; padding: 0 !important; }
+        .form-container { 
+            width: 790px !important; 
+            display: block !important; 
+            border: 2px solid #000 !important;
+            margin: 0 auto !important;
+            transform: scale(1) !important; /* Yazdırırken küçültme yapma */
+        }
+        .row { display: flex !important; flex-direction: row !important; } /* Tekrar yan yana getir */
+        .main-layout { display: flex !important; flex-direction: row !important; }
+        .left-panel { border-right: 2px solid #000 !important; }
+    }
+</style>
     </style>
 </head>
 <body>
@@ -199,4 +196,5 @@
 </body>
 
 </html>
+
 
