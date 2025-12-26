@@ -38,12 +38,13 @@
   /* TELEFON EKRANI İÇİN TAM OTURTMA AYARI */
     @media screen and (max-width: 800px) {
         body { background: #fff; }
-        .form-container { 
+   .form-container { 
             width: 100% !important; 
+            min-width: unset !important; /* BU SATIRI EKLE: Genişlik zorlamasını kırar */
             border: none !important; 
             padding: 10px !important; 
             margin-top: 0; 
-            overflow-x: hidden; /* Sağa kaymayı engelle */
+            overflow-x: hidden; 
         }
         .header img { max-width: 150px; height: auto; display: block; margin: 0 auto; } /* Logoyu ortala */
         .row { flex-direction: column; gap: 10px; }
@@ -242,6 +243,7 @@
 </script>
 </body>
 </html>
+
 
 
 
