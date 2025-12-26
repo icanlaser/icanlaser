@@ -147,17 +147,24 @@
 
     // Fotoğraf Yükleme
     document.getElementById('imgInp').onchange = function(e) {
-        const reader = new FileReader();
-        reader.onload = function(f) {
-            fabric.Image.fromURL(f.target.result, function(img) {
-                const scale = Math.min(canvas.width/img.width, canvas.height/img.height);
-                canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), { 
-                    scaleX: scale, scaleY: scale, left: 260, top: 210, originX: 'center', originY: 'center' 
-                });
+    const reader = new FileReader();
+    reader.onload = function(f) {
+        fabric.Image.fromURL(f.target.result, function(img) {
+            // Fotoğrafın canvas'a tam sığması için hesaplama (0.95 payı ile)
+            const scale = Math.min((canvas.width * 0.95) / img.width, (canvas.height * 0.95) / img.height);
+            
+            canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), { 
+                scaleX: scale, 
+                scaleY: scale, 
+                left: canvas.width / 2, 
+                top: canvas.height / 2, 
+                originX: 'center', 
+                originY: 'center' 
             });
-        };
-        reader.readAsDataURL(e.target.files[0]);
+        });
     };
+    reader.readAsDataURL(e.target.files[0]);
+};
 
     // Yazı Güncelleme
     function updateCanvas() {
@@ -218,6 +225,7 @@
 </script>
 </body>
 </html>
+
 
 
 
