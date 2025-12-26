@@ -35,25 +35,42 @@
     button { padding: 10px 15px; font-weight: bold; cursor: pointer; border-radius: 5px; border: none; }
     .btn-save { background: #d32f2f; color: white; }
 
-    /* TELEFON EKRANI AYARI */
+  /* TELEFON EKRANI İÇİN TAM OTURTMA AYARI */
     @media screen and (max-width: 800px) {
-    /* Mevcut .canvas-wrap satırını bununla değiştir */
-    .canvas-wrap { 
-        height: 350px !important; 
-        width: 100% !important; 
-        position: relative; 
-        overflow: hidden; /* Dışarı taşanı keser */
-        display: flex;
-        justify-content: center;
+        body { background: #fff; }
+        .form-container { 
+            width: 100% !important; 
+            border: none !important; 
+            padding: 10px !important; 
+            margin-top: 0; 
+            overflow-x: hidden; /* Sağa kaymayı engelle */
+        }
+        .header img { max-width: 150px; height: auto; display: block; margin: 0 auto; } /* Logoyu ortala */
+        .row { flex-direction: column; gap: 10px; }
+        .main-layout { flex-direction: column; border: none; }
+        .left-panel { border-right: none; width: 100% !important; }
+        
+        /* Fotoğraf Alanını Kutunun İçine Hapset */
+        .canvas-wrap { 
+            height: 350px !important; 
+            width: 100% !important; 
+            overflow: hidden; 
+            border: 1px solid #ccc;
+        }
+        canvas { 
+            max-width: 100% !important; 
+            height: auto !important; 
+        }
+        
+        /* Font Listesini Düzenle */
+        .font-wrap { 
+            width: 100% !important; 
+            height: 250px !important; 
+            border-top: 2px solid #000; 
+            margin-top: 10px;
+        }
+        .sig-area { flex-direction: column; align-items: center; gap: 20px; }
     }
-
-    /* Bu yeni satırı ekle (Canvas'ın kutuya sığmasını sağlar) */
-    .canvas-container {
-        width: 100% !important;
-        max-width: 100% !important;
-        touch-action: none;
-    }
-}
 
     /* YAZDIRMA VE MAİL AYARI (A4 DÜZENİ) */
     @media print {
@@ -225,6 +242,7 @@
 </script>
 </body>
 </html>
+
 
 
 
