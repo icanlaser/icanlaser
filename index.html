@@ -4,96 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I CAN LASER - Master v4.0 Official</title>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Oregano&family=Playball&family=Great+Vibes&family=Pacifico&family=Cinzel:wght@700&display=Alex+Brush&display=swap" rel="stylesheet">  
     <link href="https://fonts.googleapis.com/css2?family=Ranchers&display=swap" rel="stylesheet">
 
     <style>
-    /* GENEL AYARLAR (BİLGİSAYAR VE YAZICI İÇİN) */
+    /* CSS Bölümü: Formun görsel düzeni, renkleri ve bilgisayar/telefon ekranlarına uyumu */
     body { font-family: 'Times New Roman', serif; background: #e0e0e0; display: flex; flex-direction: column; align-items: center; padding: 0; margin: 0; }
+    
+    /* Formun beyaz ana kutusu (A4 boyutuna yakın ayarlanmıştır) */
     .form-container { width: 790px; background: white; padding: 25px; border: 2px solid #000; box-sizing: border-box; margin-top: 20px; }
-    .header { text-align: center; border-bottom: 3px solid #000; padding-bottom: 10px; margin-bottom: 15px; }
-    .main-title { font-size: 50px; font-weight: 900; margin: 0; }
-    .logo-img { width: 220px; }
+    
+    /* Müşteri bilgileri satır düzeni */
     .row { display: flex; gap: 15px; margin-top: 10px; }
     .field { flex: 1; display: flex; align-items: baseline; border-bottom: 1px solid #000; }
     .field label { font-weight: bold; margin-right: 10px; font-size: 14px; white-space: nowrap; }
     .field input { border: none; width: 100%; outline: none; font-size: 16px; background: transparent; }
+    
+    /* Orta panel: Tasarım alanı (sol) ve Font listesi (sağ) yerleşimi */
     .main-layout { display: flex; margin-top: 15px; border: 2px solid #000; }
     .left-panel { flex: 2; border-right: 2px solid #000; }
+    
+    /* Metin yazma alanı ve tasarım kutusu */
     .engraving-box { background: #f9f9f9; border-bottom: 2px solid #000; padding: 8px; text-align: center; }
     .engraving-box textarea { width: 95%; height: 50px; font-size: 20px; font-weight: bold; border: none; background: transparent; resize: none; text-align: center; }
     .canvas-wrap { position: relative; height: 420px; background: #fff; }
+    
+    /* Yazı tipi (Font) seçim listesinin stil ayarları */
     .font-wrap { flex: 1; padding: 10px; background: #fff; height: 480px; overflow-y: auto; }
     .font-item { padding: 10px; cursor: pointer; color: #777; font-size: 16px; border-bottom: 1px solid #eee; transition: 0.3s; }
     .font-item.selected { color: #000; font-weight: bold; background: #f0f0f0; border-left: 5px solid #d32f2f; }
+    
+    /* İmza alanı ve alt bilgilendirme notu */
     .notice { font-size: 10px; border-top: 2px solid #000; padding-top: 8px; margin-top: 15px; line-height: 1.3; }
     .sig-area { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 15px; }
     #sig-canvas { border-bottom: 1px solid #000; width: 180px; height: 60px; }
+    
+    /* Üst menü (Yazdır ve Kaydet butonları) - Yazıcıda görünmez */
     .no-print { width: 100%; background: #333; padding: 10px; display: flex; justify-content: center; gap: 10px; position: sticky; top: 0; z-index: 1000; flex-wrap: wrap; }
     button { padding: 10px 15px; font-weight: bold; cursor: pointer; border-radius: 5px; border: none; }
     .btn-save { background: #d32f2f; color: white; }
+    .hide-from-mail { display: none !important; }
 
-@font-face {
-  font-family: 'Wished Lovely';
-  src: url('fonts/WishedLovely.ttf') format('truetype');
-}
+    /* Özel Fontlar: Sunucundaki font dosyalarını isimlendirip sisteme tanıtır */
+    @font-face { font-family: 'Wished Lovely'; src: url('fonts/WishedLovely.ttf') format('truetype'); }
+    @font-face { font-family: 'Playball'; src: url('fonts/Playball.ttf') format('truetype'); }
+    @font-face { font-family: 'Oregano'; src: url('fonts/Oregano-Regular.ttf') format('truetype'); }
+    @font-face { font-family: 'LCALLIG_Local'; src: url('fonts/LCALLIG.TTF') format('truetype'); }
+    @font-face { font-family: 'ALGER'; src: url('fonts/ALGER.TTF') format('truetype'); }
+    @font-face { font-family: 'ALS Script'; src: url('fonts/ALSScript.ttf') format('truetype'); }
 
-
-@font-face {
-  font-family: 'ALS Script';
-  src: url('fonts/ALSScript.ttf') format('truetype');
-}
-
-  /* TELEFON EKRANI İÇİN TAM OTURTMA AYARI */
-    @media screen and (max-width: 800px) {
-        body { background: #fff; }
-   .form-container { 
-            width: 100% !important; 
-            min-width: unset !important; /* BU SATIRI EKLE: Genişlik zorlamasını kırar */
-            border: none !important; 
-            padding: 10px !important; 
-            margin-top: 0; 
-            overflow-x: hidden; 
-        }
-        .header img { max-width: 150px; height: auto; display: block; margin: 0 auto; } /* Logoyu ortala */
-        .row { flex-direction: column; gap: 10px; }
-        .main-layout { flex-direction: column; border: none; }
-        .left-panel { border-right: none; width: 100% !important; }
-        
-        /* Fotoğraf Alanını Kutunun İçine Hapset */
-        .canvas-wrap { 
-            height: 350px !important; 
-            width: 100% !important; 
-            overflow: hidden; 
-            border: 1px solid #ccc;
-        }
-        canvas { 
-            max-width: 100% !important; 
-            height: auto !important; 
-        }
-        
-        /* Font Listesini Düzenle */
-        .font-wrap { 
-            width: 100% !important; 
-            height: 250px !important; 
-            border-top: 2px solid #000; 
-            margin-top: 10px;
-        }
-        .sig-area { flex-direction: column; align-items: center; gap: 20px; }
+/* Mobil Uyumluluk: Ekran küçüldüğünde her şeyi tam sığdırır */
+@media screen and (max-width: 800px) {
+    .form-container { 
+        width: 100% !important; 
+        border: none !important; 
+        padding: 10px !important; 
+        box-sizing: border-box; 
     }
-
-    /* YAZDIRMA VE MAİL AYARI (A4 DÜZENİ) */
-    @media print {
-        .no-print { display: none !important; }
-        body { background: white !important; padding: 0 !important; }
-        .form-container { width: 790px !important; border: 2px solid #000 !important; margin: 0 auto !important; transform: scale(1) !important; }
-        .row { display: flex !important; flex-direction: row !important; }
-        .main-layout { display: flex !important; flex-direction: row !important; }
-        .left-panel { border-right: 2px solid #000 !important; }
+    .row { flex-direction: column; gap: 5px; }
+    .main-layout { flex-direction: column; border: none; }
+    .left-panel { width: 100% !important; border-right: none !important; }
+    
+    /* Tasarım alanının mobilde dışarı taşmasını engeller */
+    .canvas-wrap { 
+        width: 100% !important; 
+        height: auto !important; 
+        min-height: 300px;
+        overflow: hidden; 
     }
+    /* Çizim alanının kendisini ekrana hapseder */
+    canvas { 
+        width: 100% !important; 
+        height: auto !important; 
+        max-width: 100vw; 
+    }
+}
+    
     </style>
 </head>
 <body>
@@ -105,34 +96,15 @@
 </div>
 
 <div id="capture-area" class="form-container">
-   
-<svg width="600" height="120" viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
-  <!-- I CAN LASER -->
-  <text x="165" y="70"
-        font-family="Ranchers, Arial Black, sans-serif"
-        font-size="60"
-        letter-spacing="4">
-    <tspan fill="#000">I </tspan>
-    <tspan fill="#d32f2f">CAN </tspan>
-    <tspan fill="#000">LASER</tspan>
-  </text>
-
-  <!-- Alt çizgi -->
-  <line x1="165" y1="85" x2="480" y2="85" stroke="#d32f2f" stroke-width="4"/>
-
-  <!-- Alt slogan -->
-  <text x="165" y="110"
-        font-family="Times New Roman, serif"
-        font-size="16"
-        fill="#000">
-    Laser Engraving and Cutting Services in Toronto
-  </text>
-</svg>
+    <div style="text-align: center; margin-bottom: 15px;">
+        <img src="ICANLaser_logo.jpg" alt="I CAN LASER" style="width: 100%; max-width: 300px; height: auto; display: block; margin: 0 auto;">
+    </div>
 
     <div class="row">
         <div class="field" style="flex:2"><label>Customer:</label><input type="text" id="cName"></div>
         <div class="field"><label>Date:</label><input type="text" id="oDate" readonly></div>
     </div>
+    
     <div class="row">
         <div class="field"><label>Phone:</label><input type="text" id="cPhone" placeholder="(000) 000-0000"></div>
         <div class="field"><label>Email:</label><input type="email" id="cEmail"></div>
@@ -140,21 +112,29 @@
 
     <div class="main-layout">
         <div class="left-panel">
-            <div class="engraving-box"><textarea id="eText" oninput="updateCanvas()" placeholder="ENTER TEXT HERE"></textarea></div>
+            <div class="engraving-box">
+                <textarea id="eText" oninput="updateCanvas()" placeholder="ENTER TEXT HERE"></textarea>
+                <div style="text-align: right; padding-right: 10px; margin-top: -5px;">
+                    <label style="font-size: 14px; font-weight: bold; cursor: pointer;">
+                        <input type="checkbox" id="textColorWhite" onchange="updateCanvas()"> White Text
+                    </label>
+                </div>
+            </div>
             <div class="canvas-wrap"><canvas id="c"></canvas></div>
         </div>
+        
         <div class="font-wrap">
             <strong style="display:block; margin-bottom:10px;">SELECT FONT:</strong>
             <div id="fList">
                <div class="font-item" style="font-family:'Times New Roman'" onclick="setFont('Times New Roman',this)">1. Times New Roman</div>
                <div class="font-item" style="font-family: 'Cambria', serif" onclick="setFont('Cambria', this)">2. Cambria</div>
-	       <div class="font-item" style="font-family: 'Arial', serif" onclick="setFont('Arial', this)">3. Arial</div>
-	       <div class="font-item" style="font-family: 'Algerian', serif" onclick="setFont('Algerian', this)">4. Algerian</div>
+               <div class="font-item" style="font-family: 'Arial', serif" onclick="setFont('Arial', this)">3. Arial</div>
+               <div class="font-item" style="font-family: 'ALGER', serif" onclick="setFont('ALGER', this)">4. Algerian</div>
                <div class="font-item" style="font-family:'Oregano'" onclick="setFont('Oregano',this)">5. Oregano</div>
-	       <div class="font-item" style="font-family: 'Lucida Calligraphy', cursive" onclick="setFont('Lucida Calligraphy', this)">6. Lucida Calligraphy</div>
+               <div class="font-item" style="font-family: 'LCALLIG_Local', cursive" onclick="setFont('LCALLIG_Local', this)">6. Lucida Calligraphy</div>
                <div class="font-item" style="font-family:'Playball'" onclick="setFont('Playball',this)">7. Playball</div>
-	       <div class="font-item" style="font-family:'Wished Lovely'" onclick="setFont('Wished Lovely',this)"> 8. Wished Lovely</div>
-	       <div class="font-item" style="font-family:'ALS Script'" onclick="setFont('ALS Script',this)">9. ALS Script</div>
+               <div class="font-item" style="font-family:'Wished Lovely'" onclick="setFont('Wished Lovely',this)"> 8. Wished Lovely</div>
+               <div class="font-item" style="font-family:'ALS Script'" onclick="setFont('ALS Script',this)">9. ALS Script</div>
                <div class="font-item" style="font-family: 'Arial', serif" onclick="setFont('Arial', this)">10 Custom Design</div>
             </div>
         </div>
@@ -165,6 +145,13 @@
         <div class="field"><label>Pickup:</label><input type="date" id="pDate"></div>
     </div>
 
+    <div class="row" id="not-alani" style="margin-top: 15px;">
+        <div class="field" style="border: 1px solid #000; padding: 5px; flex-direction: column; align-items: flex-start;">
+            <label style="font-size: 12px; margin-bottom: 5px; color: #d32f2f;">INTERNAL NOTES:</label>
+            <textarea id="internalNotes" style="width: 100%; height: 40px; border: none; outline: none; font-family: 'Times New Roman', serif; font-size: 14px; resize: none; background: transparent;" placeholder="Admin notu ekleyin..."></textarea>
+        </div>
+    </div>
+
     <div class="notice">
         <strong>Terms:</strong> Items left over 90 days will be disposed of. I CAN LASER INC. is not liable for loss or damage. Laser engraving is permanent.
         <br><strong>* Prices in CAD. HST/GST will be added at checkout.</strong>
@@ -173,77 +160,72 @@
     <div class="sig-area">
         <div class="field"><label>Customer Signature:</label><canvas id="sig-canvas"></canvas></div>
         <div style="text-align: right; flex: 1;">
-           <div style="text-align: right; flex: 1;">
-    <p style="margin:0; font-weight: bold; font-size: 13px;">Served By:</p>
-
-    <p style="margin:0; font-family:'Ranchers', cursive; font-size:20px;">
-        <span style="color:#000;">I </span>
-        <span style="color:#d32f2f;">CAN </span>
-        <span style="color:#000;">LASER INC.</span>
-    </p>
-
-    </div>
-
-          <div class="field" style="margin-top:5px;"><label>Date:</label><input type="text" id="fDate" readonly></div>
+            <p style="margin:0; font-weight: bold; font-size: 13px;">Served By:</p>
+            <p style="margin:0; font-family:'Ranchers', cursive; font-size:20px;">
+                <span style="color:#000;">I </span>
+                <span style="color:#d32f2f;">CAN </span>
+                <span style="color:#000;">LASER INC.</span>
+            </p>
+            <div class="field" style="margin-top:5px;"><label>Date:</label><input type="text" id="fDate" readonly></div>
         </div>
     </div>
 </div>
 
 <script>
-    const canvas = new fabric.Canvas('c');
-    const sigPad = new SignaturePad(document.getElementById('sig-canvas'));
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw_wucULHkCsVb9RK81OnIVWQtQzUcERbofcz8pUjTR5-HV-oUkQYLapEinl_oW-ABa/exec";
+/* JAVASCRIPT: Formun akıllı özelliklerini kontrol eden kısım */
+const canvas = new fabric.Canvas('c'); 
+const sigPad = new SignaturePad(document.getElementById('sig-canvas')); 
+
+// İŞTE BURASI: Tırnak içindeki eski adresi sil ve kopyaladığın YENİ adresi buraya yapıştır
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYE3EgQxHy5S5JC4aLFo5eAd-jmWa_4-WULQn06RvEhFMEqqzo3zIXBRRLmpmR0zWudg/exec";
     
-    let tObj, curFont = 'Arial';
-    const bugun = new Date().toLocaleDateString('tr-TR');
+    let tObj, curFont = 'Arial'; // tObj: Yazı objesi, curFont: Aktif font ismi
+    const bugun = new Date().toLocaleDateString('tr-TR'); // Günün tarihini formatlama
     document.getElementById('oDate').value = bugun;
     document.getElementById('fDate').value = bugun;
     
-    // Canvas Boyutu
-    canvas.setWidth(520); 
-    canvas.setHeight(420);
+    canvas.setWidth(520); canvas.setHeight(420);
 
-    // Fotoğraf Yükleme
+    /* Ürün fotoğrafı seçildiğinde canvas arka planına yerleştirme işlemi */
     document.getElementById('imgInp').onchange = function(e) {
-    const reader = new FileReader();
-    reader.onload = function(f) {
-        fabric.Image.fromURL(f.target.result, function(img) {
-            // Fotoğrafın canvas'a tam sığması için hesaplama (0.95 payı ile)
-            const scale = Math.min((canvas.width * 0.95) / img.width, (canvas.height * 0.95) / img.height);
-            
-            canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), { 
-                scaleX: scale, 
-                scaleY: scale, 
-                left: canvas.width / 2, 
-                top: canvas.height / 2, 
-                originX: 'center', 
-                originY: 'center' 
+        const reader = new FileReader();
+        reader.onload = function(f) {
+            fabric.Image.fromURL(f.target.result, function(img) {
+                const scale = Math.min((canvas.width * 0.95) / img.width, (canvas.height * 0.95) / img.height);
+                canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), { 
+                    scaleX: scale, scaleY: scale, left: canvas.width / 2, top: canvas.height / 2, originX: 'center', originY: 'center' 
+                });
             });
-        });
+        };
+        reader.readAsDataURL(e.target.files[0]);
     };
-    reader.readAsDataURL(e.target.files[0]);
-};
 
-    // Yazı Güncelleme
+    /* Metin kutusuna yazı yazıldığında tasarım alanını anlık güncelleme */
     function updateCanvas() {
         const val = document.getElementById('eText').value;
+        const isWhite = document.getElementById('textColorWhite').checked;
+        const color = isWhite ? '#FFFFFF' : '#000000'; // Onay kutusuna göre Siyah veya Beyaz renk
+
         if(!tObj) {
+            // İlk kez yazı yazılıyorsa yazı objesini oluştur
             tObj = new fabric.IText(val, { 
                 left: 260, top: 210, originX: 'center', originY: 'center', 
-                fontSize: 40, fontFamily: curFont, textAlign: 'center' 
+                fontSize: 40, fontFamily: curFont, textAlign: 'center',
+                fill: color 
             });
             canvas.add(tObj);
         } else {
-            tObj.set({ text: val, fontFamily: curFont });
+            // Yazı zaten varsa sadece içeriği ve rengi güncelle
+            tObj.set({ text: val, fontFamily: curFont, fill: color });
             canvas.renderAll();
         }
     }
 
-    // Font Değiştirme (Düzeltildi)
+    /* Font listesinden bir font seçildiğinde çalışır */
     function setFont(f, el) {
         curFont = f;
         document.querySelectorAll('.font-item').forEach(x => x.classList.remove('selected'));
-        el.classList.add('selected');
+        el.classList.add('selected'); // Seçilen fontun yanına kırmızı çizgi ekler
         if(tObj) {
             tObj.set('fontFamily', f);
             canvas.renderAll();
@@ -252,34 +234,69 @@
         }
     }
 
-    async function captureAndSend() {
-        const email = document.getElementById('cEmail').value;
-        if(!email) { alert("Please enter Customer Email!"); return; }
-        const btn = document.getElementById('saveBtn');
-        btn.innerText = "SENDING..."; btn.disabled = true;
+    /* Formu kaydet ve mail gönder butonunun ana fonksiyonu */
+   async function captureAndSend() {
+    const email = document.getElementById('cEmail').value;
+    if(!email) { alert("Please enter Customer Email!"); return; }
 
-        try {
-            const captureArea = document.getElementById('capture-area');
-            // Formu anlık olarak A4 düzenine zorla (Görüntü kalitesi için)
-            const canvasImg = await html2canvas(captureArea, { 
-                useCORS: true, 
-                scale: 2,
-                windowWidth: 800 // HTML2Canvas'a formu genişmiş gibi hayal et diyoruz
-            });
-            
-            const data = {
-                customer: document.getElementById('cName').value,
-                email: email,
-                imageData: canvasImg.toDataURL("image/jpeg", 0.8)
-            };
-            
-            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-            alert("SUCCESS! Sent to: " + email);
-        } catch (err) { 
-            alert("Error sending mail!"); 
-        }
-        btn.innerText = "2. SAVE & MAIL FORM"; btn.disabled = false;
+    const btn = document.getElementById('saveBtn');
+    btn.innerText = "SENDING..."; btn.disabled = true;
+
+    try {
+        // 1. Tüm formun ve tasarımın fotoğrafını çek
+        const captureArea = document.getElementById('capture-area');
+        const canvasImg = await html2canvas(captureArea, { useCORS: true, scale: 2, windowWidth: 800 });
+        
+        const designArea = document.querySelector('.canvas-wrap');
+        const designImg = await html2canvas(designArea, { useCORS: true, scale: 2 });
+        
+        // 2. Veri Paketi (Apps Script'teki isimlerle birebir aynı olmalı!)
+       // index.html içindeki data paketini BU ŞEKİLDE DÜZELT:
+const data = {
+    customer: document.getElementById('cName').value,
+    email: email,
+    phone: document.getElementById('cPhone').value,
+    price: document.getElementById('price').value,
+    pickupDate: document.getElementById('pDate').value,
+    font: curFont,
+    engravingText: document.getElementById('eText').value,
+    internalNotes: document.getElementById('internalNotes').value,
+    // Script'in beklediği asıl isimler bunlardır:
+    imageData: canvasImg.toDataURL("image/jpeg", 0.8),      // Müşteriye giden görsel
+    adminImageData: canvasImg.toDataURL("image/jpeg", 0.8), // Senin için notlu görsel
+    designOnlyPng: designImg.toDataURL("image/png")        // Sadece tasarım PNG
+};
+        
+        // 3. Verileri Gönder (Buradaki SCRIPT_URL yukarıda tanımladığın adrestir)
+        await fetch(SCRIPT_URL, { 
+            method: 'POST', 
+            mode: 'no-cors', 
+            body: JSON.stringify(data) 
+        });
+
+        alert("SUCCESS! Form saved and Email sent.");
+    } catch (err) { 
+        alert("System Error: " + err); 
     }
+    btn.innerText = "2. SAVE & MAIL FORM"; btn.disabled = false;
+}
+
+   
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
